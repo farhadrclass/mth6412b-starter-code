@@ -1,0 +1,17 @@
+
+Objective
+The second part of the project is to construct a minimal spanning tree given a undirected graph.
+
+Steps to follow
+1. Choose and implement a data structure for the related components of a graph;
+2. implement the Kruskal algorithm and test it on the example of the lecture notes;
+3. accompany your code with unit tests;
+4. test your implementation on various instances of symmetric TSP in a program and comment.
+
+Guidelines
+
+
+
+https://docs.julialang.org/en/v1/manual/style-guide
+https://docs.julialang.org/en/v1/manual/documentation
+File your report as a Pluton notebook in PDF format on Moodle and log the julia jl version on the phaseX branch of your fork.
