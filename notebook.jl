@@ -22,16 +22,24 @@ Names:
 * 2]Farhad Rahbarnia 
 [1] Mathematics and Industrial engineering Faculty, Polytechnique Montréal, [Email](mozhgan.moeintaghavi@polymtl.ca)
 
-[2]Mathematics and Industrial engineering Faculty, Polytechnique Montréal, [Email](Farhad.rahbarnia@polymtl.ca)
+[2] Mathematics and Industrial engineering Faculty, Polytechnique Montréal, [Email](Farhad.rahbarnia@polymtl.ca)
 """
+
+# ╔═╡ 3a36bd9e-4915-4f67-8c9f-936fe76a96da
+md"
+
+# Github repository URL:
+
+[Code to Github: https://github.com/farhadrclass/mth6412b-starter-code]( https://github.com/farhadrclass/mth6412b-starter-code )
+"
 
 # ╔═╡ f7536602-86d4-4043-b27a-ba152ebc3cdf
 md" 
 # Introduction 
 
-The initial phase of the project entails creating appropriate data structures for the symmetrical travelling salesman problem. In this project, only symmetric problems with weights in explicit format are considered.
+The initial phase of the project entails creating appropriate data structures for the symmetrical traveling salesman problems. In this project, only symmetric graphs with weights in explicit format are considered.
 
-The procedures and outputs of Phase 1 of the class project are documented in this report. The Julia programming language is used to create five files of: node.jl, edge.jl, graph.jl, main.jl, and read_stsp.jl.
+The procedures and outputs of Phase 1 of the project are documented in this report. The Julia programming language is used to create five files of: node.jl, edge.jl, graph.jl, main.jl, and read_stsp.jl.
 The following sections go through all of the modifications in detail.
 
 
@@ -43,11 +51,11 @@ The following sections go through all of the modifications in detail.
 md"
 # An overview of what has been accomplished
 
-We developed our code in the Phase 1 branch after considering the explicit weights in the symmetric problems. We have four significant files in our programme: node.jl, edge.jl, graph.jl, read stsp.jl, and main.jl. 
+We developed our code in the Phase 1 branch after considering the explicit weights in the symmetric problems. We have five significant files in our program: node.jl, edge.jl, graph.jl, read stsp.jl, and main.jl. 
 
-In terms of the nodes.jl file, we practically didn't modify this file from the original code. The name and data of each node can be derived from the node.jl file, and printed using the show function. We kept this file entirely as it was in the original code.
+In terms of the nodes.jl file, we did not modify it from the original code. We kept this file entirely as it was in the original code.
 
-Also, we have defined the graphs with two parameters of: nodes and edges. 
+Also, we have modified the graphs struct to have two parameters of: nodes and edges. 
 
 
 
@@ -56,12 +64,17 @@ Also, we have defined the graphs with two parameters of: nodes and edges.
 
 The following are the main steps we have accomplished in this phase of the project:
 
-1.  Having created an edge.jl file, an Edge type was introduced to denote the edges of a graph.
+1. Created an edge.jl file, and an Edge type was introduced to denote the edges of a graph.
 
-2. Having created the graph.jl file, we expanded the Graph type to include its edges. Considering the non-oriented graphs, we built the algorithm such that makes it possible for the user to add one edge to the graph.
 
-3. We printed the edges of the graph between the starting and the ending nodes.
-4. We activated the read_edges() function in the read_stsp.jl file to read the weights of the edges, and then computed the weights.
+2. Modified the graph.jl file, we expanded the graph type to include its edges. Considering non-oriented graphs, we built the algorithm such that makes it possible for the user to add edges to the graph.
+
+
+3. We printed the edges of the graph.
+
+
+4. We modified the read_edges() function in the read_stsp.jl file to read the weights of the edges, and then computed the weights.
+
 
 
 
@@ -73,30 +86,17 @@ md"
 
 # The edge.jl file 
 
-In this file, we specifically set the starting node and the ending node, which indicate where the node begins and ends. 
-
 In this code, we generated a data type that has a node for the start and a node for the end, as well as a float64 for the edge's weight. This file is not abstract since all data types (including the node type) are predefined, and the Edge type is a struct in Julia.
 
-
-In fact, we tried to break the edge to edgeNode1 , edgeNode2 to make it possible to read them faster in the future phases of the project, which would make it easier.
-
-
-
-
-
+In fact, we explicitly included node1 ,and node2 to make it possible to read them faster in the future phases of the project, which would make it easier.
 
 As a result, it defines the edge start and end, and then the edge's weight is determined. 
-
 
 Finally, we can use the show function to output the edge by importing the node.jl file.
 
 
 
-
-
-
-
-Here is the code snippet that we have included in the following after removing the comments and showing partial sections of the code we created:
+Here is the code snippet of the file:
 
 ```julia
 import Base.show
@@ -131,6 +131,8 @@ edgeStart(edge) = name(edge.node1)
 
 edgeEnd(edge) = name(edge.node2)
 
+
+
 \"\"\"Renvoie les données contenues dans le noeud.
 EN: Returns the weight contained in the edge \"\"\"
 weight(edge) = edge.weight
@@ -152,17 +154,9 @@ end
 md"
 # The read_stsp.jl file 
 
-Here, we added a weight to the one in the original code, and then added the weight to the tuple of edges. Then, we transferred the string weight to float64 (transfering a string to a number) by reading the line and using the parse function. Here, we only needed to read the weights as a value because they are explicit. The file header of an STSP file also tells us how it is stored and sent to other edges (The file can be in matrix or diagonal matrix or long sting with 0 as marker for the starting and finishing the edges for a specific node)
+We added weight to the one in the original code, and then added the weight to the tuple of edges. We transferred the string weight to float64 (transferring a string to a number) by reading the line by using the parse function. Here, we needed to read the weights as a value because they are explicitly defined. The file header of an STSP file also tells us how it is stored relative to the other edges (The file can be in the matrix or diagonal matrix or long sting with 0 as a marker for the starting and finishing the edges for a specific node)
 
-
-
-
-Moreover, we tested this for the gr17 instance from the stsp file, and we were unable to plot it using the plot_graph() function since it does not allow us to execute, and there is no way for fixing it. We could, however, plot for the bayg29 instance that is provided in our assignment outputs. 
-
-
-
-
-
+Moreover, we tested this file for the gr17 instance from the stsp file, and we were unable to plot it using the plot_graph() function since it does not allow us to execute, and there is no way for fixing it. We could, however, plot for the bayg29 instance that is provided in our assignment outputs.
 
 
 
@@ -196,17 +190,12 @@ md"
 
 
 
-we created the graph, and below is the example of how we can show the graph. Here, we defined an abstract variable T( like variable K in node.jl file) as a placeholder, and then we added an edge variable. Instead of using the two add_node!() and add_edge!() functions, we created the graph, and used the example to set node1, node2, node3, and also  edge1, and edge2. The purpose here was so that we may add or remove nodes and edges later on in the future phases of the project.
+We modified the graph.jl, and below is an example of how to show the graph. Here, we defined an abstract variable T (like variable K in node.jl file) as a placeholder, and then we added an edge variable. Instead of using the two addnode!() and addedge!() functions, we created the graph by constructor function. The purpose of these functions is to add nodes and edges later on in the future phases of the project.
 
-This file creates graphs from a list of edges and nodes, and will print them using the show function. We also created two function for adding edge and nodes to the function.
+This file creates graphs from a list of edges and nodes, and can print them using the show function. We also created a function for adding edges to the graph.
 
-Then, for the graphs, we defined three functions of: names, nodes, and number of nodes. So, we can show the graph, and easily print each function for the number of nodes, and number of edges.
 
 Finally, by reading the nodes and edges from the node.jl and edge.jl files, we can output the graph.
-
-
-
-
 
 
 ```julia
@@ -313,18 +302,13 @@ md"
 
 To begin, this file imports all of the previous files that we have created.
 
+Second, it reads a stsp file, switches the directory to the data file, and then allows us to select a graph name among several instances. The nodes and edges of the graph are then created.
 
-Second, it reads a stsp file, switches the directory to the data file, and then allows us to select a graph name among several instances.
-The nodes and edges of the graph are then created.
-
-in the stsp file, some of the instances have the assigned name, and location while some of them are not assigned with values (like in gr17). So, in order to prevent from errors, we created a condition to check to see if the name is assigned in the stsp file. Otherwise, we assign a random name, and value to it ourselves. So, when we read a TSP file, we make a Node list, and if the node has names in the TSP file, we can use them; if not, we would create one. Node list is said to be an array of Nodes.
-Then we created edge List which is a type of array of Edge : edge[], and add edge start node, end node, and the weight to it.
-
+In the stsp file, some of the instances have the assigned name, and location while some of them are not assigned with values (like in gr17). So, in order to prevent errors, we created a condition to check to see if the name is assigned in the stsp file. Otherwise, we assign a random name and value to it. So, when we read a TSP file, we make a Node list, and if the node has names in the TSP file, we can use them; if not, we would create one. The node list is said to be an array of Nodes. Then we created an edge List which is a type of array of Edge: edge[], and added edge's start node, end node, and the weight to it.
 
 Then, we went through the edge list and the edges of the graph were created.
 
-Finally, Once we have two lists, it generates the graph using data types and can display it using the graph name, edges list, and nodes list parameters(G = Graph(graphName, nodesList, edgesList). So, the final graph is shown in this step.
-
+Finally, Once we have two lists, we generate the graph using data types and can display it using the graph name, edges list, and nodes list parameters (G = Graph(graphName, nodesList, edgesList). So, the final graph is shown in this step.
 
 
 ```julia 
@@ -351,6 +335,12 @@ if (length(graph_nodes) > 0) # check to see if the name is assigned in the TSP f
 else
     nodesList = Node{Int64}[]
 end
+
+
+
+
+
+
 
 
 for k=1:length(graph_edges)
@@ -392,6 +382,7 @@ md"
 # Example of an output of the system 
 
 ```console
+
 Graph gr17 has 17 nodes.
 Graph gr17 has 153 edges.
 Node 1, data: 1
@@ -567,33 +558,22 @@ Starting Point 17, EndNode 17, weight: 0.0
 ```
 "
 
-# ╔═╡ 043c52fb-0a58-4bdf-aa9c-32d5216c3a08
-md"
-# Github repository URL:
-[Code to Github: https://github.com/farhadrclass/mth6412b-starter-code]( https://github.com/farhadrclass/mth6412b-starter-code )
-"
-
-# ╔═╡ dc6afbc2-3a75-4adb-85a3-9520c9ae4bfa
-md"
-# Questions:
-
-Question 1. When we look at several of the graphs, notably the gr17, we see that the weight between node 1 and node 2 is zero. The zero weights, on the other hand, are not visible in the graph (bayg29). We are puzzled on why this difference occurs among the instances.
-
-
-"
-
 # ╔═╡ aeeed655-c80c-486a-9dba-862cfbd41cd3
 md"
 # Conclusion
 
-Overall, we created a primary code in phase 1 of the project that reads a symmetric TSP instance and generates a Graph defined by its nodes and edges based on explicit weights. Finally, we showed it by printing the nodes, and edges.
 
+
+
+
+In this assignment, we created a program that reads a symmetric TSP instance and generates a Graph defined by its nodes and edges based on explicit weights. Finally, we displayed the graph by printing the nodes, and edges.
 "
 
 # ╔═╡ Cell order:
 # ╟─d139d2ca-7a01-4a16-bd9f-ea5d2668287a
 # ╟─b46239d7-3cdd-4d07-b72c-3122dffdb8a9
 # ╟─b157ce54-ad1e-44a2-ba52-4e4881407336
+# ╟─3a36bd9e-4915-4f67-8c9f-936fe76a96da
 # ╟─f7536602-86d4-4043-b27a-ba152ebc3cdf
 # ╟─4dc27f4d-7c9c-4d93-b3c3-eb7cd5d73413
 # ╟─f05adbc6-d170-49ad-a079-5748d314db4c
@@ -601,6 +581,4 @@ Overall, we created a primary code in phase 1 of the project that reads a symmet
 # ╟─3687542f-1a0e-4082-9bdd-1c2f8c0abcaf
 # ╟─3b377075-470a-498e-88e3-728879906f78
 # ╟─b1130557-6671-44bb-9354-34a0acd46ca1
-# ╟─043c52fb-0a58-4bdf-aa9c-32d5216c3a08
-# ╟─dc6afbc2-3a75-4adb-85a3-9520c9ae4bfa
 # ╟─aeeed655-c80c-486a-9dba-862cfbd41cd3
