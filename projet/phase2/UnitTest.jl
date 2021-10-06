@@ -31,19 +31,19 @@ function createGraph()
 
 
     ab = Edge(a,b,4)
-    ah= Edge(a,h,8)
-    bh= Edge(b,h,11)
-    bc= Edge(b,c,8)
-    hi= Edge(h,i,7)
-    hg= Edge(h,g,1)
-    ig= Edge(i,g,6)
-    ic= Edge(i,c,2)
-    cd= Edge(c,d,7)
-    cf= Edge(c,f,4)
-    gf= Edge(g,f,2)
-    df= Edge(d,f,14)
-    de= Edge(d,e,9)
-    ef= Edge(e,f,10)
+    ah = Edge(a,h,8)
+    bh = Edge(b,h,11)
+    bc = Edge(b,c,8)
+    hi = Edge(h,i,7)
+    hg = Edge(h,g,1)
+    ig = Edge(i,g,6)
+    ic = Edge(i,c,2)
+    cd = Edge(c,d,7)
+    cf = Edge(c,f,4)
+    gf = Edge(g,f,2)
+    df = Edge(d,f,14)
+    de = Edge(d,e,9)
+    ef = Edge(e,f,10)
 
     #creating graph
     G = Graph("g",[a,b,c,d,e,f,g,h,i],[ab,ah,bh,bc,hi,hg,ig,ic,cd,cf,gf,df,de,ef])
@@ -89,7 +89,7 @@ end
 function test_KruskalMST(graph::Graph{T}) where T
     MST = KruskalMST(graph)
     print("Testing KruskalMST\t")
-    println(@test nb_edges(MST) == 8)
+    println(@test nb_edges(MST) == 8) # n-1
 end
 
 function RunAllTest()

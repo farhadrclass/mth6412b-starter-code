@@ -56,7 +56,6 @@ function show(node::AbstractNode)
   else
     println("Node ", name(node), ", data: ", data(node))
   end
-
 end
 
 """Setter for the parent"""

@@ -30,9 +30,9 @@ end
 
 for k=1:length(graph_edges)
     if (length(graph_nodes) > 0) # check to see if the name is assigned in the TSP file, if not we do something else 
-        node_buff = Node(string(graph_nodes[k][1]), graph_nodes[k][2])
+        node_buff = Node(string(graph_nodes[k][1]), graph_nodes[k][2],nothing ,0)
     else
-        node_buff = Node(string(k), k ) #name is the same as we assign it 
+        node_buff = Node(string(k), k, nothing ,0) #name is the same as we assign it 
     end
     push!(nodesList,node_buff)
 end
