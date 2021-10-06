@@ -1,5 +1,5 @@
 import Base.show
-include("node.jl")
+# include("node.jl")
 
 """ Abstract type from which other edge types will be derived.
 """
