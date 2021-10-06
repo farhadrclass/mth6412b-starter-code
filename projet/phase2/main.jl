@@ -16,13 +16,9 @@ fileName = string(graphName,".tsp")
 graph_nodes, graph_edges = read_stsp(fileName)
 
 
-# nodesList = Array{Node, 1}(undef, length(graph_edges)) # or `Vector{Node}(undef, length(graph_edges))`
-
-# nodesList = Node{Int64}[]
-
 # nodesList = AbstractNode[]
 if (length(graph_nodes) > 0) # check to see if the name is assigned in the TSP file, if not we do something else 
-    nodesList = Node{typeof(graph_nodes[1][1])}[]
+    nodesList = Node{typeof(graph_nodes[1])}[]
 else
     nodesList = Node{Int64}[]
 end
@@ -30,7 +26,7 @@ end
 
 for k=1:length(graph_edges)
     if (length(graph_nodes) > 0) # check to see if the name is assigned in the TSP file, if not we do something else 
-        node_buff = Node(string(graph_nodes[k][1]), graph_nodes[k][2],nothing ,0)
+        node_buff = Node(string(k),graph_nodes[k],nothing ,0)
     else
         node_buff = Node(string(k), k, nothing ,0) #name is the same as we assign it 
     end
@@ -41,12 +37,15 @@ end
  # go through the edge list and create the edges of the graph
 
 
-# edgesList=Edge{Int64}[]
 edgesList=Edge[]
 # edgesList = AbstractEdge[]
+#TODO update this for phase 3 check for bayg29
+
+# add a flag if the nodes are read then you have a edge list then use it to get the node then assign 
+
  for k = 1 : length(graph_edges)
     for j = 1 : length(graph_edges[k])
-        edge_buff=Edge(nodesList[k], nodesList[j], graph_edges[k][j][2])
+        edge_buff = Edge(nodesList[k], nodesList[j], graph_edges[k][j][2])
         push!(edgesList, edge_buff)
     end
   end

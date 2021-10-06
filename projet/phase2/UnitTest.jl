@@ -28,8 +28,6 @@ function createGraph()
     setParent!(h,h)
     setParent!(d,d)
     # set edges
-
-
     ab = Edge(a,b,4)
     ah = Edge(a,h,8)
     bh = Edge(b,h,11)
