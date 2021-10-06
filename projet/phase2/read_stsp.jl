@@ -15,7 +15,7 @@ function read_header(filename::String)
     header[section] = "None"
   end
 
-  for line in eachline(file)
+  for line in eachline(file) 
     line = strip(line)
     data = split(line, ":")
     if length(data) >= 2

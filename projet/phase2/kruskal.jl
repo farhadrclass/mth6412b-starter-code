@@ -1,9 +1,8 @@
-"""
-This File contain the algorithm for kruskal spanning tree
-"""
-
-"""This function finds the  root of a node, Using recursion"""
-function FindRoot(node::Node{t}) where T
+#     """
+# This File contain the algorithm for kruskal spanning tree
+# """
+function FindRoot(node::Node{T}) where T
+# """This function finds the  root of a node, Using recursion"""
     if node.parent == node
         return node
     end
@@ -23,10 +22,11 @@ function KruskalMST(graph::Graph{T}) where T
     MST = Graph(string(graph.name,"MST"),graph.nodes,Edge[])
     
     #Initilize the nodes parent
-    for node in graph.node
+    for node in graph.nodes
         # Way one add here 
         # node.parent = node
         # node.rank = 0
+
         # Way two use the function in node.jl
         setParent!(node,node)
         setRank!(node,0)

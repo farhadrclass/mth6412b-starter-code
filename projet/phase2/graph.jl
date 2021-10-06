@@ -15,7 +15,7 @@ Exemple :
     node3 = Node("Jill", 4.12)
 
     edge1= Edge(node1, node2, 50.1)
-    edge2= Edge(node2, node3, 50.1)
+    edge2= Edge(node2, node3, 50.1) 
 
 
     G = Graph("Ick", [node1, node2, node3], [edge1, edge2])

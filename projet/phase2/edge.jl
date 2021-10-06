@@ -12,7 +12,7 @@ Exemple:
     #Old  edge1 = Edge("TO-MTL",(1,2), 100 )
     #edge1= Edge((1,2), 100 ) 
     edge1= Edge(node1, node2, 50.1)
-
+ 
  TODO I will try to break the edge to edgeNode1 , edgeNode2 later to make the reading them faster
 
 """
