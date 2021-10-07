@@ -8,6 +8,9 @@ include("edge.jl")
 include("graph.jl")
 include("read_stsp.jl")
 
+include("kruskal.jl")
+
+
 
 # read the graph from the file 
 cd("instances\\stsp\\")# go to the file for data
@@ -53,4 +56,7 @@ edgesList=Edge[]
 
 # create a graph using data types
 G = Graph(graphName, nodesList, edgesList)
+show(G)
+# Testing Kruskal
+MST = KruskalMST(G)
 show(G)
