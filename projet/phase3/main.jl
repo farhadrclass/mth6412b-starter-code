@@ -77,5 +77,5 @@ println("Reading all the files now\n\n\n")
 for fileName in readdir("instances\\stsp\\")
     fileName =replace(fileName, ".tsp" => "") # removing tsp since createGraph expcet only the name 
     println("reading the file: " ,fileName) 
-    G= createGraph("instances\\stsp\\",fileName)
+    BufferG= createGraph("instances\\stsp\\",fileName)
 end
