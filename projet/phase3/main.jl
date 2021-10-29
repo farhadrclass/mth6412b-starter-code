@@ -40,13 +40,14 @@ function createGraph(path, graphName)
 
 
     edgesList=Edge[]
+
     # edgesList = AbstractEdge[]
 
     # add a flag if the nodes are read then you have a edge list then use it to get the node then assign 
 
     for k = 1 : length(graph_edges)
-        for j = 1 : length(graph_edges[k])
-            edge_buff = Edge(nodesList[k], nodesList[j], graph_edges[k][j][2])
+        for item in graph_edges[k]
+            edge_buff = Edge(nodesList[k], nodesList[item[1]],item[2])
             push!(edgesList, edge_buff)
         end
     end
@@ -69,6 +70,13 @@ end
 
 G= createGraph("instances\\stsp\\","bayg29")
 show(G)
+MST = KruskalMST(G)
+show(MST)
+println(weightGraph(G))
+
+println(weightGraph(MST))
+# println(MST.edges)
+
 # Testing Kruskal
 # MST = KruskalMST(G)
 # show(G)

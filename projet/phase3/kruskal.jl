@@ -3,10 +3,10 @@
 # """
 function FindRoot(node::Node{T}) where T
 # """This function finds the  root of a node, Using recursion"""
-    if node.parent == node
+    if parent(node) == node
         return node
     end
-    return FindRoot(node.parent)    
+    return FindRoot(parent(node))    
 end
 
 """
