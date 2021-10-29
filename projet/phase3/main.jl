@@ -41,7 +41,6 @@ function createGraph(path, graphName)
 
     edgesList=Edge[]
     # edgesList = AbstractEdge[]
-    #TODO update this for phase 3 check for bayg29
 
     # add a flag if the nodes are read then you have a edge list then use it to get the node then assign 
 
@@ -78,4 +77,8 @@ for fileName in readdir("instances\\stsp\\")
     fileName =replace(fileName, ".tsp" => "") # removing tsp since createGraph expcet only the name 
     println("reading the file: " ,fileName) 
     BufferG= createGraph("instances\\stsp\\",fileName)
+    # Testing Kruskal
+    MST = KruskalMST(BufferG)
+    println("The weight of MST for graph ", fileName," is ",weightGraph(MST)," and number of edges are ",nb_edges(MST))
+    println("------------------------------------------------------")
 end

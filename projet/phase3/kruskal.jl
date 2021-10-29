@@ -22,7 +22,7 @@ function KruskalMST(graph::Graph{T}) where T
     MST = Graph(string(graph.name,"MST"),graph.nodes,Edge[])
     
     #Initilize the nodes parent
-    for node in graph.nodes
+    for node in nodes(graph)
         # Way one add here 
         # node.parent = node
         # node.rank = 0
@@ -36,7 +36,7 @@ function KruskalMST(graph::Graph{T}) where T
     sort!(graph.edges, by = weight)
     
     # Finding the MST
-    for edge in graph.edges
+    for edge in edges(graph)
         root1= FindRoot(edge.node1)
         root2= FindRoot(edge.node2)
 

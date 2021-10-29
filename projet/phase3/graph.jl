@@ -82,8 +82,16 @@ Number of Edges
 """
 nb_edges(graph::AbstractGraph) = length(graph.edges)
 
-
-
+"""
+This function to check the weight of an entire graph
+"""
+function weightGraph(graph::Graph)
+  weightSum = 0
+  for edge in edges(graph)
+    weightSum = weightSum +  edge.weight
+  end  
+  weightSum
+end
 
 """Affiche un graphe
 EN: Display a graph
