@@ -9,6 +9,7 @@ include("graph.jl")
 include("read_stsp.jl")
 
 include("kruskal.jl")
+include("prim.jl")
 
 
 function createGraph(path, graphName)
@@ -87,6 +88,10 @@ for fileName in readdir("instances\\stsp\\")
     BufferG= createGraph("instances\\stsp\\",fileName)
     # Testing Kruskal
     MST = KruskalMST(BufferG)
-    println("The weight of MST for graph ", fileName," is ",weightGraph(MST)," and number of edges are ",nb_edges(MST))
+    println("The weight of KruskalMST for graph ", fileName," is ",weightGraph(MST)," and number of edges are ",nb_edges(MST))
+    println()
+
+    MST = PrimMST(BufferG)
+    println("The weight of PrimMST for graph ", fileName," is ",weightGraph(MST)," and number of edges are ",nb_edges(MST))
     println("------------------------------------------------------")
 end
