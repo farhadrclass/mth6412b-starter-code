@@ -5,6 +5,7 @@ include("edge.jl")
 include("graph.jl")
 include("read_stsp.jl")
 include("kruskal.jl")
+include("prim.jl")
 """This is a unit tests for the functions used in phase 2"""
 function createGraph()
     println("\nTesting Creating graph")
@@ -89,6 +90,15 @@ function test_KruskalMST(graph::Graph{T}) where T
     print("Testing KruskalMST\t")
     println(@test nb_edges(MST) == 8) # n-1
     show(MST)
+    return MST
+end
+
+function test_PrimMST(graph::Graph{T}) where T
+    MST = PrimMST(graph)
+    print("Testing PrimMST\t")
+    println(@test nb_edges(MST) == 8) # n-1
+    show(MST)
+    return MST
 end
 
 function RunAllTest()
@@ -97,7 +107,11 @@ function RunAllTest()
     # Test all the unit test
     test_setParent()
     test_FindRoot()
-    test_KruskalMST(g)
+    MSTsizeK=weightGraph(test_KruskalMST(g))
+    MSTsizePrime = weightGraph(test_PrimMST(g))
+    println()
+    print("Testing PrimMST and KruskalMST weights\t")
+    println(@test  MSTsizePrime== MSTsizeK)
 end
 
 

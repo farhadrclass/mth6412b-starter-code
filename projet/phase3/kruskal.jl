@@ -40,7 +40,7 @@ function KruskalMST(graph::Graph{T}) where T
     # we can create a graph to hold the tree 
     # for now we init with  nodes of graph and empty edges
     # we will update the nodes later 
-    MST = Graph(string(graph.name,"MST"),graph.nodes,Edge[])
+    MST = Graph(string(graph.name,"MST"),nodes(graph),Edge[])
     
     #Initilize the nodes parent
     for node in nodes(graph)
