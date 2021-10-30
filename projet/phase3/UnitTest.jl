@@ -80,7 +80,7 @@ function test_FindRoot()
     c = Node("c","c",b,0)
 
     print("Testing root of c\t")
-    println(@test FindRoot(c) == a)
+    println(@test findRoot!(c) == a)
 end
 
 
@@ -88,6 +88,7 @@ function test_KruskalMST(graph::Graph{T}) where T
     MST = KruskalMST(graph)
     print("Testing KruskalMST\t")
     println(@test nb_edges(MST) == 8) # n-1
+    show(MST)
 end
 
 function RunAllTest()
