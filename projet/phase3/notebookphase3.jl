@@ -37,9 +37,9 @@ md"
 # Introduction 
 
 The third phase of the project entails creating a minimal spanning tree given a
-connected and undirected graph. The procedures and outputs of phase 2 of the project are documented in this report. 
+connected and undirected graph by implementing the Prim algorithm. The procedures and outputs of phase 3 of the project, and their comparison with the output from Kruskal algorithm implemented in phase2 are documented in this report. 
 
-The following sections go through all of the modifications we have made to the file node.jl in phase1, and the creation of the new files of prim.jl, and UnitTest.jl written by Julia programming language.
+The following sections go through the modifications we have made to the file Kruskal.jl in phase2, and the creation of the new files of Prim.jl, and UnitTest.jl written by Julia programming language.
 "
 
 # ╔═╡ cba90a0a-2595-4a96-926a-039e9fe2c0e7
@@ -51,23 +51,20 @@ In this phase of the project, we developed the two acceleration heuristics and s
 Then, using the lecture notes example and multiple instances of TSP symmetric in the unit tests, we constructed the Prim method, and tested it.
 
 The codes and the related explanations are imported in the following sections of the report.
-
-
 "
 
 # ╔═╡ 85e9756d-bd4a-4b4b-bc9f-f6be8238ab12
 md" 
 # The Kruskal.jl file(previous phase modifications)
 
-This File contains the algorithm for kruskal spanning tree.
+This file contains the algorithm for kruskal spanning tree.
 
 
-We have used two heuristics of: Union via rank, and Path compression in order to quickly discover the root of a tree in a forest of disjoint sets.
+We have used two heuristics of: Union via rank and Path compression in order to quickly discover the root of a tree in a forest of disjoint sets.
 
-Then, we impl;emented Kruskal algorithm to show that the parent for each node is the node h.
+Then, we implemented Kruskal algorithm to show that the parent for each node is the node h.
 
-So, based on the output below, the tests are correctly implemented since it is also clearly shown in the unit test that all the nodes are connected to the node h.
-
+So, based on the result below, the tests are successfully implemented, since all of the nodes are clearly connected to the node h in the unit test.
 
 
 
@@ -168,27 +165,35 @@ The proof:
 
 
 ## Property 1:
-Any root node of rank k has ≥2^k nodes in its tree.
-###Proof by induction:
-Base case: For k=0, we have a single node, ≥2^0=1
+Any root node of rank k has ≥$2^k$ nodes in its tree.
+
+### Proof by induction:
+Base case: For k=0, we have a single node, ≥$2^0$=1
 Inductive hypothesis: Assume it’s true for k
+
+
 A node of rank k+1 is created only by merging two roots of rank k 
-By inductive hypothesis, each subtree has ≥2^k nodes, then the k+1 rank node has ≥2^k+2^k≥2^(k+1)  nodes in its tree.
+
+
+By inductive hypothesis, each subtree has ≥$2^k$ nodes, then the k+1 rank node has ≥$2^k$+$2^k$≥$2^{(k+1)}$  nodes in its tree.
 
 - Show that the rank of a node will always be less than |S|-1.
+
 ### Proof by contradiction:
-Assume the rank of a node is |S| or greater. For now, assume the rank is |S|. By property 1, the node has ≥2^(|S|) nodes in its tree, which is obviously a contradiction since we only have |S| nodes in total. (obviously 2^(|S|)  !=|S|  for any s≥0). Assume the rank is x>|S|, then the node has ≥2^x>2^|S|  nodes in its tree, which is obviously a contradiction again. 
+Assume the rank of a node is |S| or greater. For now, assume the rank is |S|. By property 1, the node has ≥$2^{|S|}$ nodes in its tree, which is obviously a contradiction since we only have |S| nodes in total. (obviously $2^{|S|}$  !=|S|  for any s≥0). Assume the rank is x>|S|, then the node has ≥$2^x$>$2^{|S|}$  nodes in its tree, which is obviously a contradiction again. 
 
 ## Property 2:
 If x is not a root node, then rank(x) < rank(parent(x))
+
+
 Proof: A node of rank k is created only by merging two roots of rank k-1.
 
 - Then, show that this rank will in fact always be less than log2(|S|). 
 
 
-From property 1 and property 2, we conclude that the highest rank of a node is ≤⌊log_2⁡〖|S|〗 ⌋
+From property 1 and property 2, we conclude that the highest rank of a node is ≤⌊$log_2$⁡|S|⌋
 
-Because if we have a node with rank x, then we must have at least  ≥2^x nodes, and we have |S| nodes, meaning that |S|≥2^x must be true, the greatest amount of x  that we can have is obviously ⌊log_2⁡〖|S|〗 ⌋ since x is an integer.
+Because if we have a node with rank x, then we must have at least  ≥$2^x$ nodes, and we have |S| nodes, meaning that |S|≥$2^x$ must be true, the greatest amount of x  that we can have is obviously ⌊$log_2⁡$|S| ⌋ since x is an integer.
 
 
 
@@ -197,28 +202,10 @@ Because if we have a node with rank x, then we must have at least  ≥2^x nodes,
 # ╔═╡ 9ca21b46-bb3e-467c-a76f-795d0a146935
 md" 
 # The Prim.jl file
-We created a function to to calculte prim minimum spanning tree, which is denoted as PrimMST.
+We created a function to to calculte the prim minimum spanning tree, which is denoted as PrimMST.
 We created a graph to hold the tree in this function, and started with graph nodes and empty edges.
 
 The start node is randomly chosen, and the edge list must be sorted by weight. Then  our nodes are updated depending on the parent and rank for each adjacent nodes. Here, we repeat the method until all nodes are covered.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 ```julia
@@ -266,27 +253,6 @@ function PrimMST(graph::Graph{T}) where T
     # now we update the node of the MST since we changed the parents 
     return MST
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ```
 "
@@ -471,9 +437,7 @@ md"
 
 In this assignment, we implemented the Prim algorithm to create a minimum spanning tree from a connected and undirected graph.
 
-After defining, and running the test functions, the code is also complemented by unit tests. By testing on some graphs of gr17, gr21, and gr24, bayg29, ... , we have compared the weight and edge of the minimum spanning trees obtained by Kruskal and Prim algorithms, and the tests show that the output is the same.
-
-
+After defining, and running the test functions, the code is also complemented by unit tests. By testing on some graphs of gr17, gr21, and gr24, bayg29, ... , we have compared the weight and edge of the minimum spanning trees obtained by Kruskal and Prim algorithms, and the tests show that the obtained output is the same.
 "
 
 
