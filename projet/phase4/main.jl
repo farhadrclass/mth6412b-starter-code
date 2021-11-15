@@ -69,14 +69,24 @@ function createGraph(path, graphName)
 end
 
 
-G= createGraph("instances\\stsp\\","bayg29")
-show(G)
+# G= createGraph("instances\\stsp\\","gr120")
+G= createGraph("instances\\stsp\\","fri26")
+# show(G)
 MST = KruskalMST(G)
-show(MST)
-println(weightGraph(G))
+# show(MST)
+# println(weightGraph(G))
 
-println(weightGraph(MST))
-# println(MST.edges)
+# println(weightGraph(MST))
+println(nb_edges(MST))
+
+
+MST = PrimMST(G)
+# show(MST)
+# println(weightGraph(G))
+
+# println(weightGraph(MST))
+println(nb_edges(MST))
+
 
 # Testing Kruskal
 # MST = KruskalMST(G)

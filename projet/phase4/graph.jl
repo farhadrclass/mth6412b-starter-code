@@ -50,6 +50,7 @@ function add_edge!(graph::Graph{T}, edge::Edge) where T
   vert1 = [edgeBuffer.node1 for edgeBuffer in graph.edges] # all the first nodes of edges in the graph 
   vert2 = [edgeBuffer.node2 for edgeBuffer in graph.edges] # all the second nodes in esges in the graph
 
+  # if !(((edge.node1 in vert2) &&(edge.node2 in vert1)) || edge.node1 == edge.node2)
   if !(((edge.node1 in vert2) &&(edge.node2 in vert1)) || edge.node1 == edge.node2)
     push!(graph.edges, edge)
   end

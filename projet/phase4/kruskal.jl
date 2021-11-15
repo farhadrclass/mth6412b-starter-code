@@ -12,12 +12,13 @@ function findRoot!(node::Node{T}) where T
     return parent(node)   
 end
 
-function union!(MST::Graph{T},edge) where T 
+
+function union!(edgelist::Vector{Edge},edge) where T 
     root1= findRoot!(edge.node1)
     root2= findRoot!(edge.node2)
 
     if root1 != root2
-        add_edge!(MST, edge)
+        push!(edgelist, edge)
         if root1.rank < root2.rank
             root1.parent = root2
             root2.rank +=1
@@ -25,7 +26,7 @@ function union!(MST::Graph{T},edge) where T
             root2.parent = root1
             root1.rank +=1
         end
-    end
+    end 
     
 end
 
@@ -39,14 +40,10 @@ Output list of spanning trees
 function KruskalMST(graph::Graph{T}) where T
     # we can create a graph to hold the tree 
     # for now we init with  nodes of graph and empty edges
-    # we will update the nodes later 
-    MST = Graph(string(graph.name,"MST"),nodes(graph),Edge[])
+
     
     #Initilize the nodes parent
     for node in nodes(graph)
-        # Way one add here 
-        # node.parent = node
-        # node.rank = 0
 
         # Way two use the function in node.jl
         setParent!(node,node)
@@ -54,13 +51,17 @@ function KruskalMST(graph::Graph{T}) where T
     end
 
     # we need to sort the edge list by their weight
-    sort!(graph.edges, by = weight)
-    
+    # sort!(graph.edges, by = weight)
+    sortEdge = sort(edges(graph), by = weight, rev = false)
+
+    edgelist=Edge[]
     # Finding the MST, Here we already implement by rank
-    for edge in edges(graph)
-        union!(MST,edge)
+    for edge in sortEdge
+        
+        union!(edgelist,edge)
     end
     # now we update the node of the MST since we changed the parents 
-    MST.nodes = copy(graph.nodes) # we use copy since it is a pointer type
+    MST = Graph(string(graph.name,"MST"),nodes(graph),edgelist)
+
     return MST
 end

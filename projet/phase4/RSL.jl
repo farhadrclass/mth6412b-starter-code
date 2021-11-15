@@ -32,6 +32,7 @@ function inOrder(root::Node{T}, myG::Graph{T}, orderedNodes:: Vector{Node{T}}=No
             end  
         end  
     end
+    
     return orderedNodes
 end
 
@@ -59,5 +60,7 @@ function RSL(algo::Int64, root::Node{T}, myG::Graph{T}) where T
         # print(current.name, "\t",next.name,"\t",idx)
         add_edge!(myCycle, edges(myG)[idx])
     end
+    #todo add the last item(root) and then heuratic
+    # change node.name to name(nodes)
     return weightGraph(myCycle),myCycle # returning the total weight and the cycle 
 end
