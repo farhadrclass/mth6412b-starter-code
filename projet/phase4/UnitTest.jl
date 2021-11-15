@@ -119,9 +119,9 @@ function RunAllTest()
     # MSTsizeK=weightGraph(test_KruskalMST(g))
     # MSTsizePrime = weightGraph(test_PrimMST(g))
     test_RSL(g)
-    println()
-    print("Testing PrimMST and KruskalMST weights\t")
-    println(@test  MSTsizePrime== MSTsizeK)
+    # println()
+    # print("Testing PrimMST and KruskalMST weights\t")
+    # println(@test  MSTsizePrime== MSTsizeK)
 end
 
 
