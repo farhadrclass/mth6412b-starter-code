@@ -17,16 +17,16 @@ another way is to create a tree to do the same thing
 """
 function inOrder(root::Node{T}, myG::Graph{T}, orderedNodes:: Vector{Node{T}}=Node{T}[]) where T
     
-    if !(root in orderedNodes) 
+    # if !(root in orderedNodes) 
         push!(orderedNodes, root)
-    end
+    # end
 
     for node in nodes(myG)
         if !(node in orderedNodes) # if we already visited this then ignore, 
             # find all edges that have node as one of the nodes 
-            selectEdges = edges(myG)[findall(x -> x.node1 == node || x.node2== node , edges(myG))]
-            if(length(selectEdges)>1)
-                for edge in selectEdges
+            selectEdges = findall(x -> ((x.node1 == node && x.node2 == root) || (x.node1 == root && x.node2 == node)), edges(myG))
+            if(length(selectEdges)>=1)
+                for i in selectEdges
                     inOrder(node, myG,orderedNodes) #recursivecall
                 end
             end  
@@ -46,14 +46,17 @@ function RSL(algo::Int64, root::Node{T}, myG::Graph{T}) where T
     else
         MST = KruskalMST(myG)
     end 
+    show(MST)
     # pre order the nodes
+    # WE assusme the graph is complete 
     preOrder = inOrder(root, MST)
     myCycle = Graph("Hamiltonian Cycle",nodes(myG),Edge[])
     for i in 1:length(preOrder) - 1
         current= preOrder[i]
         next = preOrder[i+1]
         idx = findfirst(x -> ((x.node1 == current && x.node2 == next) || (x.node1 == next && x.node2 == current)) , edges(myG)) # find where current and next node are 
-        # print(idx,"\n")
+        # print("\n=================\n")
+        # print(current.name, "\t",next.name,"\t",idx)
         add_edge!(myCycle, edges(myG)[idx])
     end
     return weightGraph(myCycle),myCycle # returning the total weight and the cycle 

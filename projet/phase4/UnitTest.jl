@@ -107,21 +107,22 @@ function test_RSL(graph::Graph{T}) where T
     # RSL(algo::Int64, root::Node{T}, myG::Graph{T}) where T
     print("Testing RSL\t")
     weight, Cycle = RSL(1,nodes(graph)[1],graph)
-    print(weight, Cycle)
+    print("\n",weight,"\n")
+    show(Cycle)
     return weight, Cycle
 end
 function RunAllTest()
     #create a graph
     g = createGraph()
     # Test all the unit test
-    # test_setParent()
-    # test_FindRoot()
-    # MSTsizeK=weightGraph(test_KruskalMST(g))
-    # MSTsizePrime = weightGraph(test_PrimMST(g))
-    test_RSL(g)
-    # println()
-    # print("Testing PrimMST and KruskalMST weights\t")
-    # println(@test  MSTsizePrime== MSTsizeK)
+    test_setParent()
+    test_FindRoot()
+    MSTsizeK=weightGraph(test_KruskalMST(g))
+    MSTsizePrime = weightGraph(test_PrimMST(g))
+    # test_RSL(g) # TODO issue becuase graph is  not complete, create a complete graph
+    println()
+    print("Testing PrimMST and KruskalMST weights\t")
+    println(@test  MSTsizePrime== MSTsizeK)
 end
 
 
