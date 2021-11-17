@@ -47,10 +47,12 @@ function RSL(algo::Int64, root::Node{T}, myG::Graph{T}) where T
     else
         MST = KruskalMST(myG)
     end 
-    show(MST)
+
+    # show(MST)
     # pre order the nodes
     # WE assusme the graph is complete 
     preOrder = inOrder(root, MST)
+    push!(orderedNodes, root) # adding the first node agian to make it a round
     myCycle = Graph("Hamiltonian Cycle",nodes(myG),Edge[])
     for i in 1:length(preOrder) - 1
         current= preOrder[i]
@@ -60,7 +62,6 @@ function RSL(algo::Int64, root::Node{T}, myG::Graph{T}) where T
         # print(current.name, "\t",next.name,"\t",idx)
         add_edge!(myCycle, edges(myG)[idx])
     end
-    #todo add the last item(root) and then heuratic
     # change node.name to name(nodes)
     return weightGraph(myCycle),myCycle # returning the total weight and the cycle 
 end

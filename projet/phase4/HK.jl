@@ -74,4 +74,30 @@ end
 
 
 
+
 # if true return the return MST, else calculate other stuff
+
+"""
+Main HK algo
+    >   graph is the original graph
+    >   root is the starting point 
+    >   if algo == 1 it uses Prim otherwise uses Kruskal algo  
+    >   MaxIter is used to stop if we iterate more, defualt = 10
+"""
+function HK_soklver(algo::Int64, root::Node{T}, graph::Graph{T}, MaxIter::Int64=10) where T
+    
+    myG = deepcopy(graph) # todo check if we need this 
+
+
+
+
+    deleteat! 
+
+
+
+
+
+
+
+
+end
