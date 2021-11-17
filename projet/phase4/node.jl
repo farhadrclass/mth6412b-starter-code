@@ -74,7 +74,7 @@ function setRank!(node::Node{T}, rankBuffer::Int) where T
 end
 
 """Setter for the parent"""
-function degree!(node::Node{T}, val::Int) where T
+function setDegree!(node::Node{T}, val::Int) where T
   node.degree += val
   node
 end

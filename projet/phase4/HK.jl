@@ -35,6 +35,43 @@ function vk_cal(graph::AbstractGraph)
     return true
 end
 
+"""
+This function returns the step size, first we do the way the paper suggested, however if I have time, I will add different method
+    >   firstPeriod is a flag if we are in the first firstPeriod
+    >   n is the size of graph nodes
+    >   per is the period length
+    >   t is the step size,
+    >   flagW is true if Wk <= w(K-1)
+    >   incrFlag is true if the last step of period leads to increment of w
+    >   lastStep is the true when it is the last step of period
+"""
+function stepSizeCal(firstPeriod::Bool,n::Int64, per::Int64, t::Int64, flagW::Bool, incrFlag::Bool, lastStep::Bool)
+
+    # Method 1 from paper
+    if firstPeriod
+        per = n/2
+        if flagW
+            t = t*2
+        else 
+            t = t
+        end
+    else
+        if incrFlag
+            per = per * 2
+        else
+            per = per /2        
+        end  
+        t = t/2    
+    end
+    #Method 2
+
+
+
+
+
+    return per, t
+end
+
 
 
 # if true return the return MST, else calculate other stuff
