@@ -21,6 +21,7 @@ mutable struct Node{T} <: AbstractNode{T}
   parent::Union{Node{T},Nothing} # the parent can be empty or some nodes 
   rank::Int # this is used to keep the level in the tree
   degree::Int # degree of a node
+  delta::Int # this is used to update the weight
 end
 
 # on présume que tous les noeuds dérivant d'AbstractNode
@@ -37,6 +38,13 @@ name(node::AbstractNode) = node.name
 Return a degree of the node
 """
 degree(node::AbstractNode) = node.degree
+"""
+Return a delta of the node
+"""
+delta(node::AbstractNode) = node.delta
+
+
+
 """
 Return a parent of the node
 """
@@ -76,5 +84,10 @@ end
 """Setter for the parent"""
 function setDegree!(node::Node{T}, val::Int) where T
   node.degree += val
+  node
+end
+"""Setter for the parent"""
+function setDelta!(node::Node{T}, val::Int) where T
+  node.delta = val
   node
 end

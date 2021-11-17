@@ -1,5 +1,5 @@
 import Base.show
-# include("node.jl")
+# include("node.jl") 
 
 """ Abstract type from which other edge types will be derived.
 """
@@ -40,4 +40,10 @@ EN: present the edge
 # Fix this later
 function show(edge)
   println("Starting Point ",edgeStart(edge) ,", EndNode ", edgeEnd(edge), ", weight: ", weight(edge))
+end
+
+
+function updateWeight!(edge,val)
+  edge.weight+=val
+  edge  
 end

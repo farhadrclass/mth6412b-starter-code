@@ -45,8 +45,8 @@ function oneTree(algo::Int64, graph::Graph{T},root::Node{T}) where T
 end
 
 """ return the best one tree"""
-function bestOneTree(algo::Int64, graph::Graph{T},root::Node{T}) where T
-    minCost= inf
+function bestOneTree(algo::Int64, graph::Graph{T}) where T
+    minCost= Inf
     for node in nodes(graph)
         MST= oneTree(algo, graph,node)
         MST_cost=weightGraph(MST)
