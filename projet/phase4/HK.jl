@@ -148,8 +148,9 @@ function HK_soklver(algo::Int64, root::Node{T}, graph::Graph{T}, MaxIter::Int64=
     end
     if optimal
         println("Optimal was fond")
+        # TODO should we remove the weight added by delta 
         return MST
     else # if we haven't find the optimal
-        return MST
+        return MST # or we can do 
     end
 end
