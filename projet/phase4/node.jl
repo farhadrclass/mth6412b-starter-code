@@ -20,6 +20,7 @@ mutable struct Node{T} <: AbstractNode{T}
   data::T
   parent::Union{Node{T},Nothing} # the parent can be empty or some nodes 
   rank::Int # this is used to keep the level in the tree
+  degree::Int # degree of a node
 end
 
 # on présume que tous les noeuds dérivant d'AbstractNode
@@ -32,7 +33,10 @@ end
 EN: Return the name of the node
 """
 name(node::AbstractNode) = node.name
-
+"""
+Return a degree of the node
+"""
+degree(node::AbstractNode) = node.degree
 """
 Return a parent of the node
 """
@@ -66,5 +70,11 @@ end
 """Setter for the rank"""
 function setRank!(node::Node{T}, rankBuffer::Int) where T
   node.rank = rankBuffer
+  node
+end
+
+"""Setter for the parent"""
+function degree!(node::Node{T}, val::Int) where T
+  node.degree += val
   node
 end

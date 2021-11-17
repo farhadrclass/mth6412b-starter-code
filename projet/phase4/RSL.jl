@@ -4,13 +4,13 @@
 # add the edges between them 
 # return 
 # Import the other files    
-include("node.jl")
-include("edge.jl")
-include("graph.jl")
-include("read_stsp.jl")
+# include("node.jl")
+# include("edge.jl")
+# include("graph.jl")
+# include("read_stsp.jl")
 
-include("kruskal.jl")
-include("prim.jl")
+# include("kruskal.jl")
+# include("prim.jl")
 
 """This function gets the root and return the ordered list of nodes after the MST has been found 
 another way is to create a tree to do the same thing 
