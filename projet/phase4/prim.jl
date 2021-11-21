@@ -36,12 +36,12 @@ function PrimMST(graph::Graph{T}) where T
         namesNodes = [name(x) for x in nodes(MST)]
         for edge in sortEdge #go through the edges 
             # check if the first node is  but second is not then we add it 
-            if (!isnothing(findfirst(x-> x == edge.node1.name, namesNodes)) && isnothing(findfirst(x-> x == edge.node2.name, namesNodes)))
-                add_node!(MST,edge.node2)
+            if (!isnothing(findfirst(x-> x == name(node1(edge)), namesNodes)) && isnothing(findfirst(x-> x == name(node2(edge)), namesNodes)))
+                add_node!(MST,node2(edge))
                 add_edge!(MST,edge)
                 break
-            elseif  (isnothing(findfirst(x-> x == edge.node1.name, namesNodes)) && !isnothing(findfirst(x-> x == edge.node2.name, namesNodes)))
-                add_node!(MST,edge.node1)
+            elseif  (isnothing(findfirst(x-> x == name(node1(edge)), namesNodes)) && !isnothing(findfirst(x-> x == name(node2(edge)), namesNodes)))
+                add_node!(MST,node1(edge))
                 add_edge!(MST,edge)
                 break
             end

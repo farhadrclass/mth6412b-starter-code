@@ -1,5 +1,5 @@
 """ Funtion to find min of a list and return it, then delete it from the list """
-function minFindRem!(myList::Edge)
+function minFindRem!(myList::Vector{Edge})
     val = minimum(myList)
     idx = findall(x -> x == val, myList)[1]
     
@@ -17,15 +17,15 @@ function oneTree(algo::Int64, graph::Graph{T},root::Node{T}) where T
     # remove the edges but first put them in the list to use later
     edgeList = Edge[]
     for edge in edges(myG)
-        if root == edge.node1 || root == edge.node2
+        if name(root) == name(node1(edge)) || name(root) == name(node2(edge))
             push!(edgeList,edge)
         end
     end
 
-    deleteat!(edges(myG), findall(x->(root == x.node1 || root == x.node2), edges(myG)))
+    deleteat!(edges(myG), findall(x->(name(root) == name(node1(x)) || name(root) == name(node2(x))), edges(myG)))
 
     # remove the node root and all the edges from it 
-    deleteat!(nodes(myG), findall(x->x==root, nodes(myG)))
+    deleteat!(nodes(myG), findall(x->name(x)==name(root), nodes(myG)))
     
     # find the MST 
     if algo == 1

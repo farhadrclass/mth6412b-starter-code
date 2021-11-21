@@ -10,6 +10,9 @@ include("read_stsp.jl")
 
 include("kruskal.jl")
 include("prim.jl")
+include("RSL.jl")
+include("HK.jl")
+include("GraphPlot.jl")
 
 
 function createGraph(path, graphName)
@@ -29,9 +32,9 @@ function createGraph(path, graphName)
 
     for k=1:length(graph_edges)
         if (length(graph_nodes) > 0) # check to see if the name is assigned in the TSP file, if not we do something else 
-            node_buff = Node(string(k),graph_nodes[k],nothing ,0)
+            node_buff = Node(string(k),graph_nodes[k],nothing ,0,0,0)
         else
-            node_buff = Node(string(k), k, nothing ,0) #name is the same as we assign it 
+            node_buff = Node(string(k),k, nothing ,0,0,0) #name is the same as we assign it 
         end
         push!(nodesList,node_buff)
     end
@@ -67,41 +70,35 @@ function createGraph(path, graphName)
     # show(G)
     G
 end
+println("Reading all the files now\n\n\n")
+# for fileName in readdir("instances\\stsp\\")
+#     fileName =replace(fileName, ".tsp" => "") # removing tsp since createGraph expcet only the name 
+#     println("reading the file: " ,fileName) 
+#     BufferG= createGraph("instances\\stsp\\",fileName)
+#     # Testing Kruskal
+#     MST = KruskalMST(BufferG)
+#     println("The weight of KruskalMST for graph ", fileName," is ",weightGraph(MST)," and number of edges are ",nb_edges(MST))
+#     println()
 
+#     MST = PrimMST(BufferG)
+#     println("The weight of PrimMST for graph ", fileName," is ",weightGraph(MST)," and number of edges are ",nb_edges(MST))
+#     println("------------------------------------------------------")
+# end
 
 # G= createGraph("instances\\stsp\\","gr120")
-G= createGraph("instances\\stsp\\","fri26")
+G= createGraph("instances\\stsp\\","bayg29")
 # show(G)
-MST = KruskalMST(G)
-# show(MST)
-# println(weightGraph(G))
-
-# println(weightGraph(MST))
-println(nb_edges(MST))
-
-
-MST = PrimMST(G)
-# show(MST)
-# println(weightGraph(G))
-
-# println(weightGraph(MST))
-println(nb_edges(MST))
-
-
-# Testing Kruskal
 # MST = KruskalMST(G)
-# show(G)
-println("Reading all the files now\n\n\n")
-for fileName in readdir("instances\\stsp\\")
-    fileName =replace(fileName, ".tsp" => "") # removing tsp since createGraph expcet only the name 
-    println("reading the file: " ,fileName) 
-    BufferG= createGraph("instances\\stsp\\",fileName)
-    # Testing Kruskal
-    MST = KruskalMST(BufferG)
-    println("The weight of KruskalMST for graph ", fileName," is ",weightGraph(MST)," and number of edges are ",nb_edges(MST))
-    println()
 
-    MST = PrimMST(BufferG)
-    println("The weight of PrimMST for graph ", fileName," is ",weightGraph(MST)," and number of edges are ",nb_edges(MST))
-    println("------------------------------------------------------")
-end
+
+# println(nb_edges(MST))
+# graphPlotter(MST,"bayg29_MST_Kruskal")
+# MST = PrimMST(G)
+# graphPlotter(MST,"bayg29_MST_Prim")
+
+# cycleWeight, Cycle = RSL(1,nodes(G)[1],G)
+
+# graphPlotter(Cycle,"bayg29_MST_Prim_RSL")
+
+HK_cycle= HK_solver(1, nodes(G)[1], G, 1000) 
+graphPlotter(HK_Cycle,"bayg29_MST_Prim_HK")

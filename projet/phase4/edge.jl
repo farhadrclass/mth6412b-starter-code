@@ -24,10 +24,11 @@ mutable struct Edge
   weight::Float64
 end
 
+node1(edge) = edge.node1
 
+node2(edge) = edge.node2
 
 edgeStart(edge) = name(edge.node1)
-
 edgeEnd(edge) = name(edge.node2)
 
 """Renvoie les données contenues dans le noeud.

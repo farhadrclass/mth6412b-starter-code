@@ -10,13 +10,38 @@ The goal is to find a min 1-tree that has degree 2 for each node
 """
 
 
+"""This function gets the root and return the ordered list of nodes after the MST has been found 
+another way is to create a tree to do the same thing 
+"""
+function inOrderHK(root::Node{T}, myG::Graph{T}, orderedNodes:: Vector{Node{T}}=Node{T}[]) where T
+    
+    # if !(root in orderedNodes) 
+        push!(orderedNodes, root)
+    # end
+
+    for node in nodes(myG)
+        if !(node in orderedNodes) # if we already visited this then ignore, 
+            # find all edges that have node as one of the nodes 
+            selectEdges = findall(x -> ((name(node1(x)) == name(node) && name(node2(x)) == name(root)) || (node1(x) == name(root) && name(node2(x)) == name(node))), edges(myG))
+            if(length(selectEdges)>=1)
+                for i in selectEdges
+                    inOrder(node, myG,orderedNodes) #recursivecall
+                end
+            end  
+        end  
+    end
+    
+    return orderedNodes
+end
+
+
 """
 Function to calculate the degree of nodes in  graph, 
 """
 function degree_cal(graph::AbstractGraph)
     for node in nodes(graph)
         for edge in edges(graph)
-            if node == edge.node1 || node == edge.node2
+            if name(node) == name(node1(edge)) || name(node) == name(node2(edge))
                 setDegree!(node, 1)   
             end
         end    
@@ -81,7 +106,7 @@ Main HK algo
     >   if algo == 1 it uses Prim otherwise uses Kruskal algo  
     >   MaxIter is used to stop if we iterate more, defualt = 10000
 """
-function HK_soklver(algo::Int64, root::Node{T}, graph::Graph{T}, MaxIter::Int64=10000) where T
+function HK_solver(algo::Int64, root::Node{T}, graph::Graph{T}, MaxIter::Int64=10000) where T
     
     myG = deepcopy(graph) # todo check if we need this 
     # Init the value
@@ -103,13 +128,13 @@ function HK_soklver(algo::Int64, root::Node{T}, graph::Graph{T}, MaxIter::Int64=
         optimal = false
         # update the weight of myG
         for edge in edges(myG)
-            val = delta(edge.node1)+delta(edge.node2)
+            val = delta(node1(edge))+delta(node2(edge))
             updateWeight!(edge,val)
         end
         # find the best one tree of the new myG
         MST = bestOneTree(algo, myG)
         # calculate W_π
-        W_π = weightGraph(MST) + 2* sum(node.delta for node in nodes(MST)) 
+        W_π = weightGraph(MST) + 2* sum(delta(node) for node in nodes(MST)) 
         w_perv = w
         w = max(W_π, w)
 
@@ -120,14 +145,14 @@ function HK_soklver(algo::Int64, root::Node{T}, graph::Graph{T}, MaxIter::Int64=
         end
         # reset the weight so we can do the same steps
         for edge in edges(myG)
-            val = delta(edge.node1)+delta(edge.node2)
+            val = delta(node1(edge))+delta(node2(edge))
             updateWeight!(edge,(-1*val))
         end
 
         # update the delata ,in paper it is called π_k
         
         for node in nodes(myG)
-            setDelta(node, node.delta+ step* node.degree)
+            setDelta(node, delta(node)+ step* degree(node))
         end
 
 
@@ -135,11 +160,11 @@ function HK_soklver(algo::Int64, root::Node{T}, graph::Graph{T}, MaxIter::Int64=
         
         if(itera == period ) # then the period is over
             itera = 0
-            firstPeriod= false
+            firstPeriod = false
             if(w>w_perv)
-                incrFlag=true
+                incrFlag = true
             else
-                incrFlag=false
+                incrFlag = false
             end
         end    
         
@@ -147,10 +172,23 @@ function HK_soklver(algo::Int64, root::Node{T}, graph::Graph{T}, MaxIter::Int64=
         #todo Print the steps 
     end
     if optimal
-        println("Optimal was fond")
-        # TODO should we remove the weight added by delta 
+        println("Optimal was found")
+        # TODO should we remove the weight added by delta --I think we have removed it 
         return MST
     else # if we haven't find the optimal
-        return MST # or we can do 
+        println("Optimal was NOT found")
+        # Now we have MST we can use RSL like apprach to find optimal path for this path
+        root = nodes(MST)[1]
+        preOrder = inOrderHK(root, MST)
+        push!(preOrder, root) # adding the first node agian to make it a round
+        myCycle = Graph("Hamiltonian Cycle",nodes(myG),Edge[])
+        for i in 1:length(preOrder) - 1
+            current= preOrder[i]
+            next = preOrder[i+1]
+            idx = findfirst(x -> ((name(node1(x)) == name(current) && name(node2(x)) == name(next)) || (name(node1(x)) == name(next) && name(node2(x)) == name(current))) , edges(myG)) # find where current and next node are 
+            add_edge!(myCycle, edges(myG)[idx])
+        end
+        # change node.name to name(nodes)
+        return myCycle # returning the cycle 
     end
 end

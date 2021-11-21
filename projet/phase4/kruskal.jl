@@ -14,8 +14,8 @@ end
 
 
 function union!(edgelist::Vector{Edge},edge) where T 
-    root1= findRoot!(edge.node1)
-    root2= findRoot!(edge.node2)
+    root1= findRoot!(node1(edge))
+    root2= findRoot!(node2(edge))
 
     if root1 != root2
         push!(edgelist, edge)
