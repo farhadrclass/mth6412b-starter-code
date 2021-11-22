@@ -45,6 +45,6 @@ end
 
 
 function updateWeight!(edge,val)
-  edge.weight+=val
+  edge.weight += val
   edge  
 end

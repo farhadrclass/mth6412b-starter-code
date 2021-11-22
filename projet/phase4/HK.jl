@@ -72,7 +72,7 @@ This function returns the step size, first we do the way the paper suggested, ho
     >   incrFlag is true if the last step of period leads to increment of w
     # >   lastStep is the true when it is the last step of period
 """
-function stepSizeCal(firstPeriod::Bool, n::Int64, per::Int64, t::Int64, flagW::Bool, incrFlag::Bool)
+function stepSizeCal(firstPeriod::Bool, n::Union{Int64,Float64}, per::Union{Int64,Float64}, t::Union{Int64,Float64}, flagW::Bool, incrFlag::Bool)
 
     # Method 1 from paper
     if firstPeriod
@@ -122,8 +122,9 @@ function HK_solver(algo::Int64, root::Node{T}, graph::Graph{T}, MaxIter::Int64=1
     incrFlag= false
     period = nb_nodes(myG)/2
     itera=0
+    optimal = false
 
-
+    MST = bestOneTree(algo, myG)
     while (period > 0 &&  step > 0 && itera < MaxIter)
         optimal = false
         # update the weight of myG
@@ -148,11 +149,11 @@ function HK_solver(algo::Int64, root::Node{T}, graph::Graph{T}, MaxIter::Int64=1
             val = delta(node1(edge))+delta(node2(edge))
             updateWeight!(edge,(-1*val))
         end
-
+        
         # update the delata ,in paper it is called π_k
         
         for node in nodes(myG)
-            setDelta(node, delta(node)+ step* degree(node))
+            setDelta!(node, delta(node)+ step* degree(node))
         end
 
 
@@ -171,24 +172,35 @@ function HK_solver(algo::Int64, root::Node{T}, graph::Graph{T}, MaxIter::Int64=1
         period, step = stepSizeCal(firstPeriod, nb_nodes(myG),period, step, (w <= w_perv), incrFlag)
         #todo Print the steps 
     end
+
+
     if optimal
         println("Optimal was found")
         # TODO should we remove the weight added by delta --I think we have removed it 
         return MST
     else # if we haven't find the optimal
+        
+        G = deepcopy(graph) # todo check if we need this 
         println("Optimal was NOT found")
-        # Now we have MST we can use RSL like apprach to find optimal path for this path
-        root = nodes(MST)[1]
-        preOrder = inOrderHK(root, MST)
-        push!(preOrder, root) # adding the first node agian to make it a round
-        myCycle = Graph("Hamiltonian Cycle",nodes(myG),Edge[])
-        for i in 1:length(preOrder) - 1
-            current= preOrder[i]
-            next = preOrder[i+1]
-            idx = findfirst(x -> ((name(node1(x)) == name(current) && name(node2(x)) == name(next)) || (name(node1(x)) == name(next) && name(node2(x)) == name(current))) , edges(myG)) # find where current and next node are 
-            add_edge!(myCycle, edges(myG)[idx])
-        end
+
+        # #Update the weight
+        # for edge in edges(myG)
+        #     println(edge)
+        #     val = delta(node1(edge))+delta(node2(edge))
+        #     updateWeight!(edge,val)
+        # end
+        # we find the RSL we new weights that has been updated 
+        cycleWeight, Cycle = RSL(algo,nodes(G)[1],G)
+        # reset the weight so we can update it
+        # for edge in edges(Cycle)
+        #     val = delta(node1(edge))+delta(node2(edge))
+        #     updateWeight!(edge,(-1*val))
+        # end
+
+        # myCycle=Graph("NewCycle",nodes(G),edges(Cycle))
+        
         # change node.name to name(nodes)
-        return myCycle # returning the cycle 
+        # return myCycle # returning the cycle
+        return Cycle 
     end
 end

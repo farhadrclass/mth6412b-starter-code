@@ -24,8 +24,8 @@ function inOrder(root::Node{T}, myG::Graph{T}, orderedNodes:: Vector{Node{T}}=No
     for node in nodes(myG)
         if !(node in orderedNodes) # if we already visited this then ignore, 
             # find all edges that have node as one of the nodes 
-            # selectEdges = findall(x -> ((node1(x) == node && node2(x) == root) || (node1(x) == root && node2(x) == node)), edges(myG))
-            selectEdges = findall(x -> ((name(node1(x)) == name(node) && name(node2(x)) == name(root)) || (node1(x) == name(root) && name(node2(x)) == name(node))), edges(myG))
+            selectEdges = findall(x -> ((node1(x) == node && node2(x) == root) || (node1(x) == root && node2(x) == node)), edges(myG))
+            # selectEdges = findall(x -> ((name(node1(x)) == name(node) && name(node2(x)) == name(root)) || (node1(x) == name(root) && name(node2(x)) == name(node))), edges(myG))
 
             if(length(selectEdges)>=1)
                 for i in selectEdges

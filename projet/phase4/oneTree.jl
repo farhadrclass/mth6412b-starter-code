@@ -1,8 +1,8 @@
 """ Funtion to find min of a list and return it, then delete it from the list """
 function minFindRem!(myList::Vector{Edge})
-    val = minimum(myList)
-    idx = findall(x -> x == val, myList)[1]
-    
+    # val = minimum( x-> x.weight, myList)
+    # idx = findall(x -> x == val, myList)[1]
+    val,idx= findmin(x-> x.weight, myList)
     minEdge = myList[idx]
 
     deleteat!(myList, idx)
@@ -23,6 +23,7 @@ function oneTree(algo::Int64, graph::Graph{T},root::Node{T}) where T
     end
 
     deleteat!(edges(myG), findall(x->(name(root) == name(node1(x)) || name(root) == name(node2(x))), edges(myG)))
+    # println(findall(x->(name(root) == name(node1(x)) || name(root) == name(node2(x))), edges(myG)))
 
     # remove the node root and all the edges from it 
     deleteat!(nodes(myG), findall(x->name(x)==name(root), nodes(myG)))
@@ -33,6 +34,7 @@ function oneTree(algo::Int64, graph::Graph{T},root::Node{T}) where T
     else
         MST = KruskalMST(myG)
     end 
+    # show(MST)
 
     # find the lowest edges (2) for our 1-tree
     edge1 = minFindRem!(edgeList)
@@ -45,14 +47,16 @@ function oneTree(algo::Int64, graph::Graph{T},root::Node{T}) where T
 end
 
 """ return the best one tree"""
-function bestOneTree(algo::Int64, graph::Graph{T}) where T
+function bestOneTree(algo::Int64, g::Graph{T}) where T
     minCost= Inf
-    for node in nodes(graph)
-        MST= oneTree(algo, graph,node)
+    myOneTree = deepcopy(g)
+    for node in nodes(g)
+        MST= oneTree(algo, g,node)
         MST_cost=weightGraph(MST)
-        if MST_cost < minCost
+        if MST_cost <= minCost
             minCost = MST_cost
-            myOneTree= graph("myOneTree",nodes(MST),edges(MST))
+            myOneTree = Graph("myOneTree",nodes(MST),edges(MST))
+            # myOneTree = Graph("myOneTree",nodes(MST),Edge[])
         end
     end
     return myOneTree

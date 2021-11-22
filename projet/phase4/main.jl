@@ -87,6 +87,8 @@ println("Reading all the files now\n\n\n")
 
 # G= createGraph("instances\\stsp\\","gr120")
 G= createGraph("instances\\stsp\\","bayg29")
+newG= deepcopy(G)
+
 # show(G)
 # MST = KruskalMST(G)
 
@@ -96,9 +98,9 @@ G= createGraph("instances\\stsp\\","bayg29")
 # MST = PrimMST(G)
 # graphPlotter(MST,"bayg29_MST_Prim")
 
-# cycleWeight, Cycle = RSL(1,nodes(G)[1],G)
+cycleWeight, Cycle = RSL(1,nodes(G)[1],G)
 
-# graphPlotter(Cycle,"bayg29_MST_Prim_RSL")
+graphPlotter(Cycle,"bayg29_MST_Prim_RSL")
 
-HK_cycle= HK_solver(1, nodes(G)[1], G, 1000) 
-graphPlotter(HK_Cycle,"bayg29_MST_Prim_HK")
+HK_cycle= HK_solver(1, nodes(newG)[1], newG, 10) 
+graphPlotter(HK_cycle,"bayg29_MST_Prim_HK")
