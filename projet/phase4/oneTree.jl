@@ -48,13 +48,13 @@ end
 
 """ return the best one tree"""
 function bestOneTree(algo::Int64, g::Graph{T}) where T
-    minCost= Inf
+    global minCost= Inf
     myOneTree = deepcopy(g)
     for node in nodes(g)
         MST= oneTree(algo, g,node)
         MST_cost=weightGraph(MST)
         if MST_cost <= minCost
-            minCost = MST_cost
+            global minCost = MST_cost
             myOneTree = Graph("myOneTree",nodes(MST),edges(MST))
             # myOneTree = Graph("myOneTree",nodes(MST),Edge[])
         end

@@ -60,9 +60,6 @@ function RSL(algo::Int64, root::Node{T}, myG::Graph{T}) where T
         current= preOrder[i]
         next = preOrder[i+1]
         idx = findfirst(x -> ((name(node1(x)) == name(current) && name(node2(x)) == name(next)) || (name(node1(x)) == name(next) && name(node2(x)) == name(current))) , edges(myG)) # find where current and next node are 
-
-        # print("\n=================\n")
-        # print(current.name, "\t",next.name,"\t",idx)
         add_edge!(myCycle, edges(myG)[idx])
     end
     # change node.name to name(nodes)
