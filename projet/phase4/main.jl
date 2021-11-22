@@ -90,17 +90,17 @@ G= createGraph("instances\\stsp\\","bayg29")
 newG= deepcopy(G)
 
 # show(G)
-# MST = KruskalMST(G)
+MST = KruskalMST(G)
 
 
-# println(nb_edges(MST))
-# graphPlotter(MST,"bayg29_MST_Kruskal")
-# MST = PrimMST(G)
-# graphPlotter(MST,"bayg29_MST_Prim")
+println(nb_edges(MST))
+graphPlotter(MST,"bayg29_MST_Kruskal")
+MST = PrimMST(G)
+graphPlotter(MST,"bayg29_MST_Prim")
 
 cycleWeight, Cycle = RSL(1,nodes(G)[1],G)
 
 graphPlotter(Cycle,"bayg29_MST_Prim_RSL")
 
-HK_cycle= HK_solver(1, nodes(newG)[1], newG, 10) 
+HK_cycle= HK_solver(1, nodes(newG)[1], newG, 10000000000000)  #TODO check HK Solver if it overwrites the graph
 graphPlotter(HK_cycle,"bayg29_MST_Prim_HK")
