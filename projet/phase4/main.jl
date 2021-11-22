@@ -70,20 +70,21 @@ function createGraph(path, graphName)
     # show(G)
     G
 end
-println("Reading all the files now\n\n\n")
-# for fileName in readdir("instances\\stsp\\")
-#     fileName =replace(fileName, ".tsp" => "") # removing tsp since createGraph expcet only the name 
-#     println("reading the file: " ,fileName) 
-#     BufferG= createGraph("instances\\stsp\\",fileName)
-#     # Testing Kruskal
-#     MST = KruskalMST(BufferG)
-#     println("The weight of KruskalMST for graph ", fileName," is ",weightGraph(MST)," and number of edges are ",nb_edges(MST))
-#     println()
 
-#     MST = PrimMST(BufferG)
-#     println("The weight of PrimMST for graph ", fileName," is ",weightGraph(MST)," and number of edges are ",nb_edges(MST))
-#     println("------------------------------------------------------")
-# end
+OptimalVal=Dict("bayg29" =>  1610,
+"bays29" =>  2020,
+"brazil58" =>  25395,
+"brg180" =>  1950,
+"dantzig42" =>  699,
+"fri26" =>  937,
+"gr17" =>  2085,
+"gr21" =>  2707,
+"gr24" =>  1272,
+"gr48" =>  5046,
+"gr120" =>  6942,
+"hk48" =>  11461,
+"pa561" =>  2763,
+"swiss42" =>  1273)
 
 # G= createGraph("instances\\stsp\\","gr120")
 G= createGraph("instances\\stsp\\","bayg29")
@@ -102,5 +103,69 @@ cycleWeight, Cycle = RSL(1,nodes(G)[1],G)
 
 graphPlotter(Cycle,"bayg29_MST_Prim_RSL")
 
-HK_cycle= HK_solver(1, nodes(newG)[1], newG, 10000000000000)  #TODO check HK Solver if it overwrites the graph
-graphPlotter(HK_cycle,"bayg29_MST_Prim_HK")
+
+# HK_cycle= HK_solver(1, nodes(newG)[1], newG, 10000000000000)  #TODO check HK Solver if it overwrites the graph
+
+# graphPlotter(HK_cycle,"bayg29_MST_Prim_HK")
+
+
+
+println("Reading all the files now\n\n\n")
+for fileName in readdir("instances\\stsp\\")
+    fileName =replace(fileName, ".tsp" => "") # removing tsp since createGraph expcet only the name 
+    println("reading the file: " ,fileName) 
+    BufferG= createGraph("instances\\stsp\\",fileName)
+    newG= deepcopy(BufferG)
+    # Testing Kruskal
+    MST = KruskalMST(BufferG)
+    println("The weight of KruskalMST for graph ", fileName," is ",weightGraph(MST)," and number of edges are ",nb_edges(MST))
+    println()
+
+    MST = PrimMST(BufferG)
+    println("The weight of PrimMST for graph ", fileName," is ",weightGraph(MST)," and number of edges are ",nb_edges(MST))
+    println()
+
+    cycleWeight, Cycle = RSL(1,nodes(BufferG)[1],BufferG)
+    println("The weight of RSL for graph ", fileName," is ",cycleWeight,"  Optimal Value is ", OptimalVal[fileName] )
+    if(cycleWeight>2*OptimalVal[fileName]) # this is what Prof. Orban suggested 
+        println("The value of True is larger than 2* optimal value, we will test the triangle inequality hewre to make sure if it correct")
+        flag=false
+        for edge in edges(BufferG)
+            for node in nodes(BufferG)
+                if node != node1(edge) && node != node2(edge) # if the node isn't on the edge
+                    e1 = findfirst(x-> (node1(x)==node && node2(node1(edge)))||(node2(x)==node && node1(node1(edge))),edges(BufferG)) 
+                    e2 = findfirst(x-> (node1(x)==node && node2(node2(edge)))||(node2(x)==node && node1(node2(edge))),edges(BufferG)) 
+                    if(weight(edge)>weight(e1)+weight(e2))
+                        flag=true
+                        print("Violate the triangle")
+                        break
+                    end
+                    if(flag)
+                        break
+                    end
+                end
+            end
+        end
+    end
+
+    println()
+    HK_cycle= HK_solver(1, nodes(newG)[1], newG, 10000000000000) 
+
+    println("The weight of HK Cycle for graph ", fileName," is ",weightGraph(HK_cycle),"  Optimal Value is ", OptimalVal[fileName] )
+    println()
+
+
+
+
+    println("------------------------------------------------------")
+end
+
+
+
+
+
+#Testing the nodes as root 
+cycleWeight, Cycle = RSL(1,nodes(G)[1],G)
+
+graphPlotter(Cycle,"bayg29_MST_Prim_RSL")
+
