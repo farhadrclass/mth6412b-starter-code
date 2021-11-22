@@ -24,7 +24,9 @@ function inOrder(root::Node{T}, myG::Graph{T}, orderedNodes:: Vector{Node{T}}=No
     for node in nodes(myG)
         if !(node in orderedNodes) # if we already visited this then ignore, 
             # find all edges that have node as one of the nodes 
-            selectEdges = findall(x -> ((node1(x) == node && node2(x) == root) || (node1(x) == root && node2(x) == node)), edges(myG))
+            # selectEdges = findall(x -> ((node1(x) == node && node2(x) == root) || (node1(x) == root && node2(x) == node)), edges(myG))
+            selectEdges = findall(x -> ((name(node1(x)) == name(node) && name(node2(x)) == name(root)) || (node1(x) == name(root) && name(node2(x)) == name(node))), edges(myG))
+
             if(length(selectEdges)>=1)
                 for i in selectEdges
                     inOrder(node, myG,orderedNodes) #recursivecall
@@ -57,7 +59,8 @@ function RSL(algo::Int64, root::Node{T}, myG::Graph{T}) where T
     for i in 1:length(preOrder) - 1
         current= preOrder[i]
         next = preOrder[i+1]
-        idx = findfirst(x -> ((node1(x) == current && node2(x) == next) || (node1(x) == next && node2(x) == current)) , edges(myG)) # find where current and next node are 
+        idx = findfirst(x -> ((name(node1(x)) == name(current) && name(node2(x)) == name(next)) || (name(node1(x)) == name(next) && name(node2(x)) == name(current))) , edges(myG)) # find where current and next node are 
+
         # print("\n=================\n")
         # print(current.name, "\t",next.name,"\t",idx)
         add_edge!(myCycle, edges(myG)[idx])
