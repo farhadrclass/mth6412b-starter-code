@@ -25,8 +25,12 @@ function createGraph(path, graphName)
     # nodesList = AbstractNode[]
     if (length(graph_nodes) > 0) # check to see if the name is assigned in the TSP file, if not we do something else 
         nodesList = Node{typeof(graph_nodes[1])}[]
+        vert1List = Node{typeof(graph_nodes[1])}[]
+        vert2List = Node{typeof(graph_nodes[1])}[]
     else
         nodesList = Node{Int64}[]
+        vert1List = Node{Int64}[]
+        vert2List = Node{Int64}[]
     end
 
 
@@ -59,7 +63,7 @@ function createGraph(path, graphName)
 
     # create a graph using data types
     # G = Graph(graphName, nodesList, edgesList)
-    G = Graph(graphName, nodesList, Edge[])
+    G = Graph(graphName, nodesList, Edge[],vert1List,vert2List)
 
     #adding the edges here so we test there is no dublicate 
     for k =1:length(edgesList)

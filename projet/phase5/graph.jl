@@ -27,6 +27,8 @@ mutable struct Graph{T} <: AbstractGraph{T}
   name::String
   nodes::Vector{Node{T}}
   edges::Vector{Edge}  
+  vert1::Union{Vector{Node{T}},Nothing}  # all the first nodes of edges in the graph 
+  vert2::Union{Vector{Node{T}},Nothing} # all the second nodes in esges in the graph
 end
 
 """Ajoute un noeud au graphe.
@@ -47,12 +49,21 @@ end
 function add_edge!(graph::Graph{T}, edge::Edge) where T
   # here we test edge.node1 and edge.node2 are in 
 
-  vert1 = [edgeBuffer.node1 for edgeBuffer in graph.edges] # all the first nodes of edges in the graph 
-  vert2 = [edgeBuffer.node2 for edgeBuffer in graph.edges] # all the second nodes in esges in the graph
+  # vert1 = [edgeBuffer.node1 for edgeBuffer in graph.edges] # all the first nodes of edges in the graph 
+  # vert2 = [edgeBuffer.node2 for edgeBuffer in graph.edges] # all the second nodes in esges in the graph
 
-  # if !(((edge.node1 in vert2) &&(edge.node2 in vert1)) || edge.node1 == edge.node2)
-  if !(((edge.node1 in vert2) &&(edge.node2 in vert1)) || edge.node1 == edge.node2)
-    push!(graph.edges, edge)
+  if !(edge.node1 == edge.node2)
+
+    if (isempty(graph.vert1)) # first time, we intilize it 
+      push!(graph.edges, edge)
+      push!(graph.vert1, node1(edge))
+      push!(graph.vert1, node2(edge))
+    elseif  !(((edge.node1 in graph.vert2) &&(edge.node2 in graph.vert1)))
+      push!(graph.edges, edge)
+      push!(graph.vert1, node1(edge))
+      push!(graph.vert1, node2(edge))
+    end
+    
   end
   graph
 end
@@ -66,6 +77,12 @@ name(graph::AbstractGraph) = graph.name
 EN: Retuens a list of nodes of the graph
 """
 nodes(graph::AbstractGraph) = graph.nodes
+
+# return a list of first nodes
+vert1(graph::AbstractGraph) = graph.vert1
+# return a list of second nodes
+
+vert2(graph::AbstractGraph) = graph.vert2
 
 """Renvoie le nombre de noeuds du graphe.
 EN: Returns a size or number of nodes of a graph

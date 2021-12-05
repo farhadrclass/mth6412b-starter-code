@@ -61,7 +61,7 @@ function KruskalMST(graph::Graph{T}) where T
         union!(edgelist,edge)
     end
     # now we update the node of the MST since we changed the parents 
-    MST = Graph(string(graph.name,"MST"),nodes(graph),edgelist)
+    MST = Graph(string(graph.name,"MST"),nodes(graph),edgelist,vert1(graph),vert2(graph))
 
     return MST
 end

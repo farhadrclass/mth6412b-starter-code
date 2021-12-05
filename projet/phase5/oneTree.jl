@@ -55,7 +55,7 @@ function bestOneTree(algo::Int64, g::Graph{T}) where T
         MST_cost=weightGraph(MST)
         if MST_cost <= minCost
             global minCost = MST_cost
-            myOneTree = Graph("myOneTree",nodes(MST),edges(MST))
+            myOneTree = Graph("myOneTree",nodes(MST),edges(MST),vert1(MST),vert2(MST))
             # myOneTree = Graph("myOneTree",nodes(MST),Edge[])
         end
     end

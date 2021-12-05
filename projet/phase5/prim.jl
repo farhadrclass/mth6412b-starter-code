@@ -26,7 +26,7 @@ function PrimMST(graph::Graph{T}) where T
     initNode  =  nodes(graph)[1]  # random start for node
 
 
-    MST = Graph(string(graph.name,"PrimMST"),[initNode],Edge[])
+    MST = Graph(string(graph.name,"PrimMST"),[initNode],Edge[],typeof(initNode)[],typeof(initNode)[])
     
     # add_node!(MST,initNode)
     # we need to sort the edge list by their weight

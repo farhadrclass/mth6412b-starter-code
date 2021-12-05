@@ -200,7 +200,7 @@ function HK_solver(algo::Int64, root::Node{T}, graph::Graph{T}, MaxIter::Int64=1
             updateWeight!(edge,(-1*val))
         end
 
-        myCycle=Graph("NewCycle",nodes(G),edges(Cycle))
+        myCycle=Graph("NewCycle",nodes(G),edges(Cycle),vert1(G),vert2(G))
         
         # change node.name to name(nodes)
         return myCycle # returning the cycle

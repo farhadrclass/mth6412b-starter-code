@@ -47,7 +47,7 @@ function createGraph()
     ef = Edge(e,f,10)
 
     #creating graph
-    G = Graph("g",[a,b,c,d,e,f,g,h,i],[ab,ah,bh,bc,hi,hg,ig,ic,cd,cf,gf,df,de,ef])
+    G = Graph("g",[a,b,c,d,e,f,g,h,i],[ab,ah,bh,bc,hi,hg,ig,ic,cd,cf,gf,df,de,ef],Node{typeof(initNode)}[a],Node{typeof(initNode)}[b])
     print("Testing Create graph, number of nodes\t")
     println(@test nb_nodes(G) == 9)
     print("Testing Create graph, number of edges\t")
