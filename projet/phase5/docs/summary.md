@@ -25,7 +25,6 @@ For each shredded image, a tsp file has already been created for you in the tsp/
 Alternatively, you can read a shredded image yourself and get the dissimilarity between each pair of columns using the commands :
 
 ![picture 1](../../../images/328c8fdb4c68163f2355f7b4fb3b00d75a98162e94cfa5df3686a267e8306924.png)  
-
 Once a tour has been identified, construct a list of nodes along that tour without removing the
 the zero node. Using the write_tour() function, create a .tour file in TSPLib format that
 describes your tour. Sample .tour files are available in the tsp/tours directory
