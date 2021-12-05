@@ -100,7 +100,7 @@ for fileName in readdir(joinpath(@__DIR__, "shredder-julia", "tsp", "instances")
 
     if RSL_flag
         println("RSL has been selected")
-        cycleWeight, Cycle = RSL(1, nodes(myG)[1], myG)
+        cycleWeight, Cycle = RSL(1, nodes(myG)[1], myG) # if 1 we use prim otherwise kruskal
         println("RSL weightGraph ", cycleWeight, " graph weightGraph")
 
     else #HK
