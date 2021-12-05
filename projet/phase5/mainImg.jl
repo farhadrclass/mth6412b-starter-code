@@ -85,44 +85,23 @@ for fileName in readdir(joinpath(@__DIR__, "shredder-julia", "tsp", "instances")
     fileName = replace(fileName, ".tsp" => "") # removing tsp since createGraph expcet only the name 
     println("reading the file: ", fileName)
     BufferG = createGraph(joinpath(@__DIR__, "shredder-julia", "tsp", "instances"), fileName)
-    
+
     # find the first node that has 1 as the name 
     root = nodes(BufferG)[findfirst(n -> name(n) == "1", nodes(BufferG))]
 
     #Remove the first one from the list
     myG = deepcopy(BufferG)
-    deleteat!(edges(myG), findall(x->(name(root) == name(node1(x)) || name(root) == name(node2(x))), edges(myG)))
+    deleteat!(edges(myG), findall(x -> (name(root) == name(node1(x)) || name(root) == name(node2(x))), edges(myG)))
 
     # remove the node root and all the edges from it 
-    deleteat!(nodes(myG), findall(x->name(x)==name(root), nodes(myG)))
-    
+    deleteat!(nodes(myG), findall(x -> name(x) == name(root), nodes(myG)))
+
 
 
     if RSL_flag
         println("RSL has been selected")
         cycleWeight, Cycle = RSL(1, nodes(myG)[1], myG)
-        # BestCycle = Cycle
-        # #Testing the nodes as root  RSL 
-        # minW = Inf
-        # cc = 0
-        # for node in nodes(myG)
-        #     cycleWeight, Cycle = RSL(1, node, myG)
-        #     if cycleWeight < minW
-        #         cc += 1
-        #         minW = cycleWeight
-        #         BestCycle = Cycle
-        #         println("best RSL weightGraph ", minW)
-
-        #         if (cc > 3) # we only take 3 updates 
-        #             break
-        #         end
-        #     end
-        # end
-        # cycleWeight = minW
-        # Cycle = BestCycle
         println("RSL weightGraph ", cycleWeight, " graph weightGraph")
-
-
 
     else #HK
         Cycle_HK = HK_solver(1, root, myG, 100)
@@ -134,10 +113,26 @@ for fileName in readdir(joinpath(@__DIR__, "shredder-julia", "tsp", "instances")
     # describes your tour. Sample .tour files are available in the tsp/tours directory
     # directory; these have been identified by a TSP solving method, but do not necessarily give an
     # necessarily give an optimal solution.
+
+    #######################################################################
+    # HERE I remove the largest and add the node 1 to it 
+    buff, idx = findmax(x -> x.weight, edges(Cycle))
+    maxEdge = edges(Cycle)[idx]
+    dummyNode1 = node1(maxEdge)
+    dummyNode2 = node2(maxEdge)
+    deleteat!(edges(Cycle), idx)
+
+    add_node!(Cycle, root)
+    DummyEdge = findall(x -> ((name(root) == name(node1(x)) && name(dummyNode2) == name(node2(x))) || (name(root) == name(node2(x)) && name(dummyNode2) == name(node1(x))) || (name(root) == name(node1(x)) && name(dummyNode1) == name(node2(x))) || (name(root) == name(node2(x)) && name(dummyNode1) == name(node1(x)))), edges(BufferG))
+    for e in DummyEdge
+        add_edge!(Cycle, edges(BufferG)[e]) 
+    end
+    #########################################################
+
     myTourSize = nb_nodes(Cycle) + 1
     myTour = zeros(Int, myTourSize)
 
-    nextNode = "2" # first node 
+    nextNode = "1" # first node 
     myTour[1] = -1
     myTour[2] = 1
     # we start at the first node and find the tour 
@@ -150,8 +145,8 @@ for fileName in readdir(joinpath(@__DIR__, "shredder-julia", "tsp", "instances")
         end
         myTour[i] = parse(Int, nextNode)
     end
-    myTour = myTour[2:end] 
-    myTour = myTour.- 1 # we expct the tour to start from zero
+    myTour = myTour[2:end]
+    myTour = myTour .- 1 # we expct the tour to start from zero
     myTourFile = joinpath(@__DIR__, "shredder-julia", "tsp", "tours", fileName * ".tour")
 
 
