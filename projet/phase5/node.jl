@@ -82,12 +82,12 @@ function setRank!(node::Node{T}, rankBuffer::Int) where T
 end
 
 """Setter for the parent"""
-function setDegree!(node::Node{T}, val::Int) where T
+function setDegree!(node::Node{T}, val::Union{Int64,Float64}) where T
   node.degree += val
   node
 end
 """Setter for the parent"""
-function setDelta!(node::Node{T}, val::Int) where T
+function setDelta!(node::Node{T}, val::Union{Int64,Float64}) where T
   node.delta = val
   node
 end

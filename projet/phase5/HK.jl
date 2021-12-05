@@ -52,7 +52,7 @@ end
 vk=dk-2 
 returns TRUE if all vk ==0 , else return False
 """
-function vk_cal(graph::AbstractGraph)
+function vk_cal!(graph::AbstractGraph)
     for node in nodes(graph)
         setDegree!(node, -2)   
         if(degree(node)!=0)
@@ -91,7 +91,7 @@ function stepSizeCal(firstPeriod::Bool, n::Union{Int64,Float64}, per::Union{Int6
         t = t/2    
     end
     #Method 2
-    return Int(floor(per)) , Int(floor(t)) 
+    return Int(floor(per)) , t#Int(floor(t)) 
 end
 
 
@@ -125,7 +125,7 @@ function HK_solver(algo::Int64, root::Node{T}, graph::Graph{T}, MaxIter::Int64=1
     optimal = false
 
     MST = bestOneTree(algo, myG)
-    while (period > 0 &&  step > 0 && itera < MaxIter)
+    while (period > 0 &&  step > 1*10^-6 && itera < MaxIter)
         optimal = false
         # update the weight of myG
         for edge in edges(myG)
@@ -135,21 +135,21 @@ function HK_solver(algo::Int64, root::Node{T}, graph::Graph{T}, MaxIter::Int64=1
         # find the best one tree of the new myG
         MST = bestOneTree(algo, myG)
         # calculate W_π
-        W_π = weightGraph(MST) + 2* sum(delta(node) for node in nodes(MST)) 
+        W_π = weightGraph(MST) - 2* sum(delta(node) for node in nodes(MST)) 
         w_perv = w
         w = max(W_π, w)
 
-
-        if(vk_cal(MST))  # if vk is true then one tree is the optimal one 
-            optimal=true
-            break
-        end
         # reset the weight so we can do the same steps
         for edge in edges(myG)
             val = delta(node1(edge))+delta(node2(edge))
             updateWeight!(edge,(-1*val))
         end
         
+        if(vk_cal!(MST))  # if vk is true then one tree is the optimal one 
+            optimal=true
+            break
+        end
+
         # update the delata ,in paper it is called π_k
         
         for node in nodes(myG)
@@ -159,18 +159,21 @@ function HK_solver(algo::Int64, root::Node{T}, graph::Graph{T}, MaxIter::Int64=1
 
         itera +=1
         
-        if(itera == period ) # then the period is over
+        if (itera > period ) # then the period is over
             itera = 0
             firstPeriod = false
-            if(w>w_perv)
+            if (W_π>w_perv)
                 incrFlag = true
             else
                 incrFlag = false
             end
+            period = nb_nodes(myG)/2
         end    
+        period, step = stepSizeCal(firstPeriod, nb_nodes(myG),period, step, (W_π <= w_perv), (W_π>w_perv))
+
         
-        period, step = stepSizeCal(firstPeriod, nb_nodes(myG),period, step, (w <= w_perv), incrFlag)
-        period = nb_nodes(myG)/2
+        print(period,"---",step,"---",itera,"---","\n------\n")
+
         #todo Print the steps 
     end
 
@@ -185,23 +188,22 @@ function HK_solver(algo::Int64, root::Node{T}, graph::Graph{T}, MaxIter::Int64=1
         println("Optimal was NOT found")
 
         # #Update the weight
-        # for edge in edges(myG)
-        #     println(edge)
-        #     val = delta(node1(edge))+delta(node2(edge))
-        #     updateWeight!(edge,val)
-        # end
+        for edge in edges(myG)
+            val = delta(node1(edge))+delta(node2(edge))
+            updateWeight!(edge,val)
+        end
         # we find the RSL we new weights that has been updated 
         cycleWeight, Cycle = RSL(algo,nodes(G)[1],G)
         # reset the weight so we can update it
-        # for edge in edges(Cycle)
-        #     val = delta(node1(edge))+delta(node2(edge))
-        #     updateWeight!(edge,(-1*val))
-        # end
+        for edge in edges(Cycle)
+            val = delta(node1(edge))+delta(node2(edge))
+            updateWeight!(edge,(-1*val))
+        end
 
-        # myCycle=Graph("NewCycle",nodes(G),edges(Cycle))
+        myCycle=Graph("NewCycle",nodes(G),edges(Cycle))
         
         # change node.name to name(nodes)
-        # return myCycle # returning the cycle
-        return Cycle 
+        return myCycle # returning the cycle
+        # return Cycle 
     end
 end
