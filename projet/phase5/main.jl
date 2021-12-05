@@ -134,55 +134,55 @@ graphPlotter(HK_cycle,"bayg29_MST_Prim_HK")
 # graphPlotter(BestCycle,"bayg29_MST_Prim_RSL_Best")
 # ## show(BestCycle)
 
-# println("Reading all the files now\n\n\n")
-# for fileName in readdir("instances\\stsp\\")
-#     fileName =replace(fileName, ".tsp" => "") # removing tsp since createGraph expcet only the name 
-#     println("reading the file: " ,fileName) 
-#     BufferG= createGraph("instances\\stsp\\",fileName)
-#     newG= deepcopy(BufferG)
-#     # Testing Kruskal
-#     MST = KruskalMST(BufferG)
-#     println("The weight of KruskalMST for graph ", fileName," is ",weightGraph(MST)," and number of edges are ",nb_edges(MST))
-#     println()
+println("Reading all the files now\n\n\n")
+for fileName in readdir("instances\\stsp\\")
+    fileName =replace(fileName, ".tsp" => "") # removing tsp since createGraph expcet only the name 
+    println("reading the file: " ,fileName) 
+    BufferG= createGraph("instances\\stsp\\",fileName)
+    newG= deepcopy(BufferG)
+    # Testing Kruskal
+    MST = KruskalMST(BufferG)
+    println("The weight of KruskalMST for graph ", fileName," is ",weightGraph(MST)," and number of edges are ",nb_edges(MST))
+    println()
 
-#     MST = PrimMST(BufferG)
-#     println("The weight of PrimMST for graph ", fileName," is ",weightGraph(MST)," and number of edges are ",nb_edges(MST))
-#     println()
+    MST = PrimMST(BufferG)
+    println("The weight of PrimMST for graph ", fileName," is ",weightGraph(MST)," and number of edges are ",nb_edges(MST))
+    println()
 
-#     cycleWeight, Cycle = RSL(1,nodes(BufferG)[1],BufferG)
-#     println("The weight of RSL for graph ", fileName," is ",cycleWeight,"  Optimal Value is ", OptimalVal[fileName] )
-#     if(cycleWeight>2*OptimalVal[fileName]) # this is what Prof. Orban suggested 
-#         println("The value of True is larger than 2* optimal value, we will test the triangle inequality hewre to make sure if it correct")
-#         flag=false
-#         #Trinagle Inequality
-#         for edge in edges(BufferG)
-#             for node in nodes(BufferG)
-#                 if node != node1(edge) && node != node2(edge) # if the node isn't on the edge
-#                     e1 = findfirst(x-> (node1(x)==node && node2(node1(edge)))||(node2(x)==node && node1(node1(edge))),edges(BufferG)) 
-#                     e2 = findfirst(x-> (node1(x)==node && node2(node2(edge)))||(node2(x)==node && node1(node2(edge))),edges(BufferG)) 
-#                     if(weight(edge)>weight(e1)+weight(e2))
-#                         flag=true
-#                         print("Violate the triangle")
-#                         break
-#                     end
-#                     if(flag)
-#                         break
-#                     end
-#                 end
-#             end
-#         end
-#     end
+    cycleWeight, Cycle = RSL(1,nodes(BufferG)[1],BufferG)
+    println("The weight of RSL for graph ", fileName," is ",cycleWeight,"  Optimal Value is ", OptimalVal[fileName] )
+    if(cycleWeight>2*OptimalVal[fileName]) # this is what Prof. Orban suggested 
+        println("The value of True is larger than 2* optimal value, we will test the triangle inequality hewre to make sure if it correct")
+        flag=false
+        #Trinagle Inequality
+        for edge in edges(BufferG)
+            for node in nodes(BufferG)
+                if node != node1(edge) && node != node2(edge) # if the node isn't on the edge
+                    e1 = findfirst(x-> (node1(x)==node && node2(node1(edge)))||(node2(x)==node && node1(node1(edge))),edges(BufferG)) 
+                    e2 = findfirst(x-> (node1(x)==node && node2(node2(edge)))||(node2(x)==node && node1(node2(edge))),edges(BufferG)) 
+                    if(weight(edge)>weight(e1)+weight(e2))
+                        flag=true
+                        print("Violate the triangle")
+                        break
+                    end
+                    if(flag)
+                        break
+                    end
+                end
+            end
+        end
+    end
 
-#     println()
-#     HK_cycle= HK_solver(1, nodes(newG)[1], newG, 10000000000000) 
+    println()
+    HK_cycle= HK_solver(1, nodes(newG)[1], newG, 10000000000000) 
 
-#     println("The weight of HK Cycle for graph ", fileName," is ",weightGraph(HK_cycle),"  Optimal Value is ", OptimalVal[fileName] )
-#     println()
-
-
+    println("The weight of HK Cycle for graph ", fileName," is ",weightGraph(HK_cycle),"  Optimal Value is ", OptimalVal[fileName] )
+    println()
 
 
-#     println("------------------------------------------------------")
-# end
+
+
+    println("------------------------------------------------------")
+end
 
 

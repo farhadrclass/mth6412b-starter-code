@@ -172,7 +172,7 @@ function HK_solver(algo::Int64, root::Node{T}, graph::Graph{T}, MaxIter::Int64=1
         period, step = stepSizeCal(firstPeriod, nb_nodes(myG),period, step, (W_π <= w_perv), (W_π>w_perv))
 
         
-        print(period,"---",step,"---",itera,"---","\n------\n")
+        # print(period,"---",step,"---",itera,"---","\n------\n")
 
         #todo Print the steps 
     end

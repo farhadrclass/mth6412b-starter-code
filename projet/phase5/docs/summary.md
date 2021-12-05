@@ -41,4 +41,3 @@ For each reconstructed image, give the length of the best tour found, the origin
 and the reconstructed image side by side.
 
 
-Translated with www.DeepL.com/Translator (free version)

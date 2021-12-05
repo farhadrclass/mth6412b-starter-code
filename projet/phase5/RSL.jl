@@ -55,7 +55,7 @@ function RSL(algo::Int64, root::Node{T}, myG::Graph{T}) where T
     # WE assusme the graph is complete 
     preOrder = inOrder(root, MST)
     push!(preOrder, root) # adding the first node agian to make it a round
-    myCycle = Graph("Hamiltonian Cycle",nodes(myG),Edge[],vert1(myG),vert2(myG))
+    myCycle = Graph("Hamiltonian Cycle",nodes(myG),Edge[],typeof(nodes(myG)[1])[],typeof(nodes(myG)[1])[])
     for i in 1:length(preOrder) - 1
         current= preOrder[i]
         next = preOrder[i+1]
