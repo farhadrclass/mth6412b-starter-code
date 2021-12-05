@@ -115,7 +115,7 @@ for fileName in readdir(joinpath(@__DIR__, "shredder-julia", "tsp", "instances")
     # necessarily give an optimal solution.
 
     #######################################################################
-    # HERE I remove the largest and add the node 1 to it 
+    # HERE I remove the largest edge  and add the node 1 to it 
     buff, idx = findmax(x -> x.weight, edges(Cycle))
     maxEdge = edges(Cycle)[idx]
     dummyNode1 = node1(maxEdge)
